@@ -1,0 +1,32 @@
+const int uart_num = UART_NUM_1;
+uart_config_t uart_config = {
+    .baud_rate = 19200,
+    .data_bits = UART_DATA_8_BITS,
+    .parity = UART_PARITY_DISABLE,
+    .stop_bits = UART_STOP_BITS_1,
+    .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    .source_clk = UART_SCLK_DEFAULT,
+};
+    
+// Set UART log level
+esp_log_level_set(TAG, ESP_LOG_INFO);
+
+ESP_LOGI(TAG, "Start RS485 apfgdfgdfgdgplication test and configure UART.");
+d
+// Install UART driver (we don't need an event queue here)
+// In this example we don't even use a buffer for sending data.
+ESP_ERROR_CHECK(uart_driver_install(uart_num, BUF_SIZE * 2, 0, 0, NULL, 0));
+
+// Configure UART parameters
+ESP_ERROR_CHECK(uart_param_config(uart_num, &uart_config));
+
+ESP_LOGI(TAG, "UART set pins, mode and install driver.");
+
+// Set UART pins as per KConfig settings
+ESP_ERROR_CHECK(uart_set_pin(uart_num, 17, 18, 8, UART_PIN_NO_CHANGE));
+
+// Set RS485 half duplex mode
+ESP_ERROR_CHECK(uart_set_mode(uart_num, UART_MODE_RS485_HALF_DUPLEX));
+
+// Set read timeout of UART TOUT feature
+ESP_ERROR_CHECK(uart_set_rx_timeout(uart_num, ECHO_READ_TOUT));
